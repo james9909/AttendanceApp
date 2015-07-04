@@ -1,15 +1,24 @@
 package wang.james.attendance;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class ViewAttendanceActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
+    private ViewPager mViewPager;
+    private ViewPagerAdapter adapter;
+    private SlidingTabLayout mViewTabs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +28,20 @@ public class ViewAttendanceActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.tab_titles));
+        mViewPager = (ViewPager) findViewById(R.id.view_attendance_pager);
+        mViewPager.setAdapter(adapter);
+        mViewTabs = (SlidingTabLayout) findViewById(R.id.view_attendance_tabs);
+        mViewTabs.setDistributeEvenly(true);
+        mViewTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.primary);
+            }
+        });
+
+        mViewTabs.setViewPager(mViewPager);
     }
 
     @Override
@@ -45,5 +68,44 @@ public class ViewAttendanceActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        String[] titles;
+        public ViewPagerAdapter(FragmentManager fm, String[] titles) {
+            super(fm);
+            this.titles = titles;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment tab;
+            switch (position) {
+                case 0:
+                    tab = new ViewToday();
+                    break;
+                case 1:
+                    tab = new ViewDate();
+                    break;
+                case 2:
+                    tab = new ViewStudent();
+                    break;
+                default:
+                    tab = null;
+                    break;
+            }
+            return tab;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }

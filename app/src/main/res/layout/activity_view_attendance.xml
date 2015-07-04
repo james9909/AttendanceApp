@@ -1,18 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="wang.james.attendance.ViewAttendanceActivity">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        />
+        layout="@layout/toolbar" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"
-        android:layout_below="@id/toolbar" />
+    <wang.james.attendance.SlidingTabLayout
+        android:id="@+id/view_attendance_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_attendance_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
