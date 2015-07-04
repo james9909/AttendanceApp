@@ -1,5 +1,6 @@
 package wang.james.attendance;
 
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -56,8 +57,11 @@ public class MainActivity extends ActionBarActivity {
         NavigationDrawer navigationDrawer = (NavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.drawer);
         navigationDrawer.setUp(R.id.not_logged_in, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        View navigationDrawerItems = findViewById(R.id.drawer_fragment);
-        navigationDrawerItems.setVisibility(View.GONE);
+        if (!isLoggedIn()) {
+            showLogin();
+        } else {
+            hideLogin();
+        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,27 +93,50 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean isLoggedIn() {
+        return Configuration.getInstance().getAdminEmail() != "";
+    }
+
+    public void showLogin() {
+        View navigationDrawerItems = findViewById(R.id.drawer_fragment);
+        navigationDrawerItems.setVisibility(View.GONE);
+
+        View not_logged_in = findViewById(R.id.not_logged_in);
+        not_logged_in.setVisibility(View.VISIBLE);
+
+        View login_text = findViewById(R.id.login_text);
+        login_text.setVisibility(View.VISIBLE);
+
+        email.setVisibility(View.VISIBLE);
+        password.setVisibility(View.VISIBLE);
+        login.setVisibility(View.VISIBLE);
+
+    }
+
+    public void hideLogin() {
+        View navigationDrawerItems = findViewById(R.id.drawer_fragment);
+        navigationDrawerItems.setVisibility(View.VISIBLE);
+
+        View not_logged_in = findViewById(R.id.not_logged_in);
+        not_logged_in.setVisibility(View.GONE);
+
+        View login_text = findViewById(R.id.login_text);
+        login_text.setVisibility(View.GONE);
+
+        email.setVisibility(View.GONE);
+        password.setVisibility(View.GONE);
+        login.setVisibility(View.GONE);
+    }
+
     private void login(String response, String givenEmail, String givenPassword) {
         if (response == null) {
             Toast.makeText(getApplicationContext(), "Could not contact server", Toast.LENGTH_SHORT).show();
         }
         if (response.contains("SUCCESS")) {
-            Configuration config = new Configuration();
-            View navigationDrawerItems = findViewById(R.id.drawer_fragment);
-            navigationDrawerItems.setVisibility(View.VISIBLE);
-
-            View not_logged_in = findViewById(R.id.not_logged_in);
-            not_logged_in.setVisibility(View.GONE);
-
-            View login_text = findViewById(R.id.login_text);
-            login_text.setVisibility(View.GONE);
-
-            email.setVisibility(View.GONE);
-            password.setVisibility(View.GONE);
-            login.setVisibility(View.GONE);
+            hideLogin();
             Toast.makeText(getApplicationContext(), "Validation successful", Toast.LENGTH_SHORT).show();
-            config.getInstance().setAdminEmail(givenEmail);
-            config.getInstance().setAdminPassword(givenPassword);
+            Configuration.getInstance().setAdminEmail(givenEmail);
+            Configuration.getInstance().setAdminPassword(givenPassword);
         } else {
             Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
         }
