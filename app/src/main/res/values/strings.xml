@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StuyPulse Attendance</string>
+    <string name="app_name">AttendanceApp</string>
 
     <string name="welcome">Welcome to the StuyPulse attendance app</string>
     <string name="action_settings">Settings</string>

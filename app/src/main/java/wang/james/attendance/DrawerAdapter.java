@@ -11,8 +11,6 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import wang.james.stuypulseattendance.R;
-
 /**
  * Created by james on 7/3/15.
  */

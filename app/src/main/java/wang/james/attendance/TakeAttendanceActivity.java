@@ -6,9 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import wang.james.stuypulseattendance.R;
-
-
 public class TakeAttendanceActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
@@ -18,6 +15,9 @@ public class TakeAttendanceActivity extends ActionBarActivity {
         setContentView(R.layout.activity_take_attendance);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override

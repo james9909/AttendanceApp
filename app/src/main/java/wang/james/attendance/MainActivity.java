@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import wang.james.stuypulseattendance.R;
-
 public class MainActivity extends ActionBarActivity {
 
     final String url = "https://stuypulse-attendance.appspot.com/";

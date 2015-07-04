@@ -16,8 +16,6 @@ import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import wang.james.stuypulseattendance.R;
-
 /**
  * A simple {@link Fragment} subclass.
  */
