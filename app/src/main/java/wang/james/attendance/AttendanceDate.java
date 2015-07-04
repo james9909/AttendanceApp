@@ -9,22 +9,27 @@ import java.util.Date;
  * Created by james on 7/2/15.
  */
 public class AttendanceDate {
-    String day, month, year;
-    Calendar cal = Calendar.getInstance();
+    private static final AttendanceDate attendanceDate = new AttendanceDate();
+    private String day, month, year;
+    private Calendar cal = Calendar.getInstance();
 
-    public String getDay() {
+    public static AttendanceDate getInstance() {
+        return attendanceDate;
+    }
+
+    public int getDay() {
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        return day + "";
+        return day;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         int month = cal.get(Calendar.MONTH);
-        return month + "";
+        return month;
     }
 
-    public String getYear() {
+    public int getYear() {
         int year = cal.get(Calendar.YEAR);
-        return year + "";
+        return year;
     }
 
     public void setDay(String day) {
