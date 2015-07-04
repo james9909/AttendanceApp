@@ -13,10 +13,6 @@ public class Configuration {
     private int MONTH = AttendanceDate.getInstance().getMonth();
     private int YEAR = AttendanceDate.getInstance().getYear();
 
-    private int DAY_OVERRIDE = -1;
-    private int MONTH_OVERRIDE = -1;
-    private int YEAR_OVERRIDE = -1;
-
     public static Configuration getInstance() {
         return config;
     }
@@ -59,29 +55,5 @@ public class Configuration {
 
     public void setYear(int YEAR) {
         this.YEAR = YEAR;
-    }
-
-    public int getDayOverride() {
-        return DAY_OVERRIDE;
-    }
-
-    public void setDayOverride(int DAY_OVERRIDE) {
-        this.DAY_OVERRIDE = DAY_OVERRIDE;
-    }
-
-    public int getMonthOverride() {
-        return MONTH_OVERRIDE;
-    }
-
-    public void setMonthOverride(int MONTH_OVERRIDE) {
-        this.MONTH_OVERRIDE = MONTH_OVERRIDE;
-    }
-
-    public int getYearOverride() {
-        return YEAR_OVERRIDE;
-    }
-
-    public void setYearOverride(int YEAR_OVERRIDE) {
-        this.YEAR_OVERRIDE = YEAR_OVERRIDE;
     }
 }
