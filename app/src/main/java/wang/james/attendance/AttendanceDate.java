@@ -10,24 +10,19 @@ import java.util.Date;
  */
 public class AttendanceDate {
     String day, month, year;
-    Date date = new Date();
     Calendar cal = Calendar.getInstance();
 
-
     public String getDay() {
-        cal.setTime(date);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         return day + "";
     }
 
     public String getMonth() {
-        cal.setTime(date);
         int month = cal.get(Calendar.MONTH);
         return month + "";
     }
 
     public String getYear() {
-        cal.setTime(date);
         int year = cal.get(Calendar.YEAR);
         return year + "";
     }
