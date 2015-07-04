@@ -34,12 +34,8 @@ public class ViewAttendanceActivity extends ActionBarActivity {
         mViewPager.setAdapter(adapter);
         mViewTabs = (SlidingTabLayout) findViewById(R.id.view_attendance_tabs);
         mViewTabs.setDistributeEvenly(true);
-        mViewTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.primary);
-            }
-        });
+        mViewTabs.setBackgroundResource(R.color.primary);
+        mViewTabs.setSelectedIndicatorColors(getResources().getColor(android.R.color.white));
 
         mViewTabs.setViewPager(mViewPager);
     }
