@@ -157,9 +157,9 @@ public class MainActivity extends ActionBarActivity {
                 // Use this to set data
                 BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("email", email.getText().toString());
                 BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("pass", password.getText().toString());
-                BasicNameValuePair dayBasicNaeValuePair = new BasicNameValuePair("day", date.getDay());
-                BasicNameValuePair monthBasicNaeValuePair = new BasicNameValuePair("month", date.getMonth());
-                BasicNameValuePair yearBasicNaeValuePair = new BasicNameValuePair("year", date.getYear());
+                BasicNameValuePair dayBasicNaeValuePair = new BasicNameValuePair("day", date.getDay() + "");
+                BasicNameValuePair monthBasicNaeValuePair = new BasicNameValuePair("month", date.getMonth() + "");
+                BasicNameValuePair yearBasicNaeValuePair = new BasicNameValuePair("year", date.getYear() + "");
 
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
                 nameValuePairList.add(usernameBasicNameValuePair);
