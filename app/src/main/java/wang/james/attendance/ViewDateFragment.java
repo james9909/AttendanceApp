@@ -15,7 +15,7 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewDate extends Fragment {
+public class ViewDateFragment extends Fragment {
 
     private DatePicker datePicker;
     private TextView selected;
@@ -24,7 +24,7 @@ public class ViewDate extends Fragment {
     private int day, month, year;
     static final int DATE_PICKER_ID = 1111;
 
-    public ViewDate() {
+    public ViewDateFragment() {
     }
 
     @Override

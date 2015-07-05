@@ -12,9 +12,9 @@ import wang.james.attendance.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewStudent extends Fragment {
+public class ViewTodayFragment extends Fragment {
 
-    public ViewStudent() {
+    public ViewTodayFragment() {
         // Required empty public constructor
     }
 
@@ -22,7 +22,7 @@ public class ViewStudent extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_student, container, false);
+        return inflater.inflate(R.layout.fragment_view_today, container, false);
     }
 
 }

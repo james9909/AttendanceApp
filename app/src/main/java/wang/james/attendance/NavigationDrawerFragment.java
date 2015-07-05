@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationDrawer extends Fragment {
+public class NavigationDrawerFragment extends Fragment {
 
     public static final String PREF_FILE_NAME = "testpref";
     public static final String KEY_USER_LEARNED_DRAWER = "user_learned_drawer";
@@ -33,7 +33,7 @@ public class NavigationDrawer extends Fragment {
     private boolean mUserLearnedDrawer; // Determines if the user is aware of the navigation drawer
     private boolean mFromSavedInstanceState; // Determines if the fragment is coming back or starting for first time
 
-    public NavigationDrawer() {
+    public NavigationDrawerFragment() {
         // Required empty public constructor
     }
 

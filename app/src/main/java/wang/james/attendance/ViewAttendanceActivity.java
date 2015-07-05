@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 public class ViewAttendanceActivity extends ActionBarActivity {
 
@@ -79,13 +78,13 @@ public class ViewAttendanceActivity extends ActionBarActivity {
             Fragment tab;
             switch (position) {
                 case 0:
-                    tab = new ViewToday();
+                    tab = new ViewTodayFragment();
                     break;
                 case 1:
-                    tab = new ViewDate();
+                    tab = new ViewDateFragment();
                     break;
                 case 2:
-                    tab = new ViewStudent();
+                    tab = new ViewStudentFragment();
                     break;
                 default:
                     tab = null;
