@@ -9,12 +9,13 @@ import android.os.Bundle;
 /**
  * Created by james on 7/4/15.
  */
-public class DatePickerFragment extends DialogFragment{
+public class DatePickerFragment extends DialogFragment {
 
     DatePickerDialog.OnDateSetListener ondateSet;
     private int year, month, day;
 
-    public DatePickerFragment() {}
+    public DatePickerFragment() {
+    }
 
     public void setCallBack(DatePickerDialog.OnDateSetListener ondate) {
         ondateSet = ondate;

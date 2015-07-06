@@ -1,5 +1,7 @@
 package wang.james.attendance;
 
+import java.util.Calendar;
+
 /**
  * Created by james on 7/3/15.
  */
@@ -9,9 +11,11 @@ public class Configuration {
     final static String url = "https://stuypulse-attendance.appspot.com/";
     private String ADMIN_EMAIL = "";
     private String ADMIN_PASSWORD = "";
-    private int DAY = AttendanceDate.getInstance().getDay();
-    private int MONTH = AttendanceDate.getInstance().getMonth();
-    private int YEAR = AttendanceDate.getInstance().getYear();
+
+    private Calendar calendar = Calendar.getInstance();
+    private int DAY = calendar.get(Calendar.DAY_OF_MONTH);
+    private int MONTH = calendar.get(Calendar.MONTH);
+    private int YEAR = calendar.get(Calendar.YEAR);
 
     public static Configuration getInstance() {
         return config;

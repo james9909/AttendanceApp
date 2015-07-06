@@ -25,6 +25,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ItemHolder
         this.items = items;
         inflater = LayoutInflater.from(context);
     }
+
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.drawer_row, parent, false);
@@ -67,6 +68,4 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ItemHolder
             }
         }
     }
-
-
 }

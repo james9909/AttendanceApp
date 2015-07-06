@@ -1,10 +1,8 @@
 package wang.james.attendance;
 
-import android.support.v4.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,10 @@ import android.widget.TextView;
  */
 public class ViewDateFragment extends Fragment {
 
-    private DatePicker datePicker;
     private TextView selected;
     private Button changeDate;
 
     private int day, month, year;
-    static final int DATE_PICKER_ID = 1111;
 
     public ViewDateFragment() {
     }
@@ -68,8 +64,8 @@ public class ViewDateFragment extends Fragment {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
 
-            selected.setText(String.valueOf(dayOfMonth) + "-" + String.valueOf(monthOfYear + 1)
-                    + "-" + String.valueOf(year));
+            selected.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear + 1)
+                    + "/" + String.valueOf(year));
         }
     };
 }

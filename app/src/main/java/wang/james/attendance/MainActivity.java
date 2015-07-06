@@ -27,16 +27,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
-    final String url = "https://stuypulse-attendance.appspot.com/";
     Button login;
     EditText email, password;
-    public Map<String, String> mCredentials = new HashMap<String, String>();
 
     private Toolbar toolbar;
 
@@ -109,7 +105,6 @@ public class MainActivity extends ActionBarActivity {
         email.setVisibility(View.VISIBLE);
         password.setVisibility(View.VISIBLE);
         login.setVisibility(View.VISIBLE);
-
     }
 
     public void hideLogin() {
@@ -148,24 +143,22 @@ public class MainActivity extends ActionBarActivity {
             @Override
             protected String doInBackground(String... params) {
 
-                AttendanceDate date = new AttendanceDate();
-
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
+                HttpPost httpPost = new HttpPost(Configuration.url);
 
                 // Use this to set data
                 BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("email", email.getText().toString());
                 BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("pass", password.getText().toString());
-                BasicNameValuePair dayBasicNaeValuePair = new BasicNameValuePair("day", date.getDay() + "");
-                BasicNameValuePair monthBasicNaeValuePair = new BasicNameValuePair("month", date.getMonth() + "");
-                BasicNameValuePair yearBasicNaeValuePair = new BasicNameValuePair("year", date.getYear() + "");
+                BasicNameValuePair dayBasicNameValuePair = new BasicNameValuePair("day", Configuration.getInstance().getDay() + "");
+                BasicNameValuePair monthBasicNameValuePair = new BasicNameValuePair("month", Configuration.getInstance().getMonth() + "");
+                BasicNameValuePair yearBasicNameValuePair = new BasicNameValuePair("year", Configuration.getInstance().getYear() + "");
 
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
                 nameValuePairList.add(usernameBasicNameValuePair);
                 nameValuePairList.add(passwordBasicNameValuePAir);
-                nameValuePairList.add(dayBasicNaeValuePair);
-                nameValuePairList.add(monthBasicNaeValuePair);
-                nameValuePairList.add(yearBasicNaeValuePair);
+                nameValuePairList.add(dayBasicNameValuePair);
+                nameValuePairList.add(monthBasicNameValuePair);
+                nameValuePairList.add(yearBasicNameValuePair);
 
                 try {
                     // UrlEncodedFormEntity is an entity composed of a list of url-encoded pairs.
@@ -190,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
 
                         StringBuilder stringBuilder = new StringBuilder();
 
-                        String bufferedStrChunk = null;
+                        String bufferedStrChunk;
 
                         while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
                             stringBuilder.append(bufferedStrChunk);
