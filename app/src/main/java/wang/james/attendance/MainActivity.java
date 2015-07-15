@@ -124,15 +124,15 @@ public class MainActivity extends ActionBarActivity {
 
     private void login(String response, String givenEmail, String givenPassword) {
         if (response == null) {
-            Toast.makeText(getApplicationContext(), "Could not contact server", Toast.LENGTH_SHORT).show();
+            AttendanceToast.show(getApplicationContext(), "Could not contact server");
         }
         if (response.contains("SUCCESS")) {
             hideLogin();
-            Toast.makeText(getApplicationContext(), "Validation successful", Toast.LENGTH_SHORT).show();
+            AttendanceToast.show(getApplicationContext(), "Validation successful");
             Configuration.getInstance().setAdminEmail(givenEmail);
             Configuration.getInstance().setAdminPassword(givenPassword);
         } else {
-            Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+            AttendanceToast.show(getApplicationContext(), response);
         }
     }
 

@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wang.james.attendance.TakeAttendanceActivity" >
+    tools:context="wang.james.attendance.TakeAttendanceActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -22,9 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/take_attendance_text"
-        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:inputType="number"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="10dp"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/send_attendance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/get_id"
+        android:layout_centerHorizontal="true"
+        android:hint="send" />
 </RelativeLayout>
