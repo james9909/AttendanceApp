@@ -20,11 +20,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.TakeAttendanceActivity"
-            android:label="@string/title_activity_take_attendance"
-            android:parentActivityName=".Activity.MainActivity" >
-        </activity>
-        <activity
             android:name=".Activity.ViewAttendanceActivity"
             android:label="@string/title_activity_view_attendance"
             android:parentActivityName=".Activity.MainActivity" >

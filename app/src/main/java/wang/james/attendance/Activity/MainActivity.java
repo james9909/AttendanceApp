@@ -1,13 +1,17 @@
 package wang.james.attendance.Activity;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -28,6 +32,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import wang.james.attendance.Utils.Utils;
 import wang.james.attendance.View.AttendanceToast;
 import wang.james.attendance.Utils.Configuration;
 import wang.james.attendance.Fragment.NavigationDrawerFragment;
@@ -65,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendPostData(email.getText().toString(), password.getText().toString());
+                sendLoginRequest(email.getText().toString(), password.getText().toString());
             }
         });
     }
@@ -124,6 +129,10 @@ public class MainActivity extends ActionBarActivity {
         email.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
         login.setVisibility(View.GONE);
+
+        Fragment takeAttendanceFragment = new TakeAttendanceFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.activity_main_content, takeAttendanceFragment).commit();
     }
 
     private void login(String response, String givenEmail, String givenPassword) {
@@ -140,7 +149,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void sendPostData(final String givenEmail, final String givenPassword) {
+    private void sendLoginRequest(final String givenEmail, final String givenPassword) {
 
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -218,5 +227,123 @@ public class MainActivity extends ActionBarActivity {
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
         sendPostReqAsyncTask.execute(givenEmail, givenPassword);
 
+    }
+
+    public static class TakeAttendanceFragment extends Fragment {
+        private EditText getId;
+        private Button send;
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_take_attendance, container, false);
+            getId = (EditText) view.findViewById(R.id.get_id);
+            send = (Button) view.findViewById(R.id.send_attendance);
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String id = getId.getText().toString();
+                    if (Utils.isValidId(id)) {
+                        sendId(id);
+                    } else {
+                        AttendanceToast.show(getActivity(), "Invalid barcode");
+                    }
+                }
+            });
+            return view;
+        }
+
+
+        private void showServerResponse(String response) {
+            if (response == null) {
+                AttendanceToast.show(getActivity(), "Could not contact server");
+            } else if (response.contains("SUCCESS")) {
+                AttendanceToast.show(getActivity(), "Success!");
+                getId.getText().clear();
+            } else {
+                AttendanceToast.show(getActivity(), response);
+            }
+        }
+
+        private void sendId(final String id) {
+
+            class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
+
+                @Override
+                protected String doInBackground(String... params) {
+
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(Configuration.url);
+
+                    // Use this to set data
+                    BasicNameValuePair idBasicNameValuePair = new BasicNameValuePair("id", id);
+                    BasicNameValuePair emailBasicNameValuePair = new BasicNameValuePair("email", Configuration.getInstance().getAdminEmail());
+                    BasicNameValuePair passwordBasicNameValuePair = new BasicNameValuePair("pass", Configuration.getInstance().getAdminPassword());
+                    BasicNameValuePair dayBasicNameValuePair = new BasicNameValuePair("day", Configuration.getInstance().getDay() + "");
+                    BasicNameValuePair monthBasicNameValuePair = new BasicNameValuePair("month", Configuration.getInstance().getMonth() + "");
+                    BasicNameValuePair yearBasicNameValuePair = new BasicNameValuePair("year", Configuration.getInstance().getYear() + "");
+
+                    List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+                    nameValuePairList.add(idBasicNameValuePair);
+                    nameValuePairList.add(emailBasicNameValuePair);
+                    nameValuePairList.add(passwordBasicNameValuePair);
+                    nameValuePairList.add(dayBasicNameValuePair);
+                    nameValuePairList.add(monthBasicNameValuePair);
+                    nameValuePairList.add(yearBasicNameValuePair);
+
+                    try {
+                        // UrlEncodedFormEntity is an entity composed of a list of url-encoded pairs.
+                        //This is typically useful while sending an HTTP POST request.
+                        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(nameValuePairList);
+
+                        // setEntity() hands the entity (here it is urlEncodedFormEntity) to the request.
+                        httpPost.setEntity(urlEncodedFormEntity);
+
+                        try {
+                            // HttpResponse is an interface just like HttpPost.
+                            //Therefore we can't initialize them
+                            HttpResponse httpResponse = httpClient.execute(httpPost);
+
+                            // According to the JAVA API, InputStream constructor do nothing.
+                            //So we can't initialize InputStream although it is not an interface
+                            InputStream inputStream = httpResponse.getEntity().getContent();
+
+                            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                            StringBuilder stringBuilder = new StringBuilder();
+
+                            String bufferedStrChunk;
+
+                            while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
+                                stringBuilder.append(bufferedStrChunk);
+                            }
+
+                            return stringBuilder.toString();
+
+                        } catch (ClientProtocolException cpe) {
+                            cpe.printStackTrace();
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+
+                    } catch (UnsupportedEncodingException uee) {
+                        uee.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    showServerResponse(result);
+                }
+            }
+
+            SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+            sendPostReqAsyncTask.execute(id);
+
+        }
     }
 }

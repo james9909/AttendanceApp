@@ -1,0 +1,41 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/take_attendance_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="wang.james.attendance.Activity.MainActivityp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/take_attendance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="78dp"
+            android:text="Enter your id:"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/get_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/take_attendance_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/send_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/get_id"
+            android:layout_centerHorizontal="true"
+            android:hint="send" />
+
+    </RelativeLayout>
+
+</FrameLayout>

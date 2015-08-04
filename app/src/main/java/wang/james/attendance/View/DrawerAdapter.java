@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import wang.james.attendance.Activity.TakeAttendanceActivity;
+import wang.james.attendance.Activity.MainActivity;
 import wang.james.attendance.Activity.ViewAttendanceActivity;
 import wang.james.attendance.R;
 
@@ -46,7 +46,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ItemHolder
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -63,9 +63,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ItemHolder
             int position = getPosition();
             switch (position) {
                 case 0:
-                    context.startActivity(new Intent(context, TakeAttendanceActivity.class));
-                    break;
-                case 1:
                     context.startActivity(new Intent(context, ViewAttendanceActivity.class));
                 default:
                     break;
