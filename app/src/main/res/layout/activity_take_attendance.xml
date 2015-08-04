@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wang.james.attendance.TakeAttendanceActivity">
+    tools:context="wang.james.attendance.Activity.TakeAttendanceActivity">
 
     <include
         android:id="@+id/toolbar"

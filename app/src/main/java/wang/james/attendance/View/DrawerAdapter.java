@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.View;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
+
+import wang.james.attendance.Activity.TakeAttendanceActivity;
+import wang.james.attendance.Activity.ViewAttendanceActivity;
+import wang.james.attendance.R;
 
 /**
  * Created by james on 7/3/15.

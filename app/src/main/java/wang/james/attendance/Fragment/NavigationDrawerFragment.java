@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import wang.james.attendance.View.DrawerAdapter;
+import wang.james.attendance.R;
 
 /**
  * A simple {@link Fragment} subclass.

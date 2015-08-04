@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.Fragment;
 
 
 import android.os.Bundle;

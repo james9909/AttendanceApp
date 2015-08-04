@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package wang.james.attendance;
+package wang.james.attendance.View;
 
 import android.R;
 import android.content.Context;

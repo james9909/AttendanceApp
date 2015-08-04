@@ -1,9 +1,9 @@
-package wang.james.attendance;
+package wang.james.attendance.Activity;
 
 import android.os.AsyncTask;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,38 +28,52 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TakeAttendanceActivity extends ActionBarActivity {
+import wang.james.attendance.View.AttendanceToast;
+import wang.james.attendance.Utils.Configuration;
+import wang.james.attendance.Fragment.NavigationDrawerFragment;
+import wang.james.attendance.R;
+
+public class MainActivity extends ActionBarActivity {
+
+    Button login;
+    EditText email, password;
 
     private Toolbar toolbar;
-    private EditText getId;
-    private Button send;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Configuration config = new Configuration();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_take_attendance);
+        setContentView(R.layout.activity_main);
+
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        login = (Button) findViewById(R.id.login);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        getId = (EditText) findViewById(R.id.get_id);
-        send = (Button) findViewById(R.id.send_attendance);
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String id = getId.getText().toString();
-                if (isValid(id)) {
-                    send(id);
-                } else {
-                    AttendanceToast.show(getApplicationContext(), "Invalid barcode");
-                }
-            }
-        });
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationDrawerFragment navigationDrawer = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.drawer);
+        navigationDrawer.setUp(R.id.not_logged_in, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+
+        if (!isLoggedIn()) {
+            showLogin();
+        } else {
+            hideLogin();
+        }
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPostData(email.getText().toString(), password.getText().toString());
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_take_attendance, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -75,29 +89,58 @@ public class TakeAttendanceActivity extends ActionBarActivity {
             return true;
         }
 
-        if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void showResponse(String response) {
+    public boolean isLoggedIn() {
+        return Configuration.getInstance().getAdminEmail() != "";
+    }
+
+    public void showLogin() {
+        View navigationDrawerItems = findViewById(R.id.drawer_fragment);
+        navigationDrawerItems.setVisibility(View.GONE);
+
+        View not_logged_in = findViewById(R.id.not_logged_in);
+        not_logged_in.setVisibility(View.VISIBLE);
+
+        View login_text = findViewById(R.id.login_text);
+        login_text.setVisibility(View.VISIBLE);
+
+        email.setVisibility(View.VISIBLE);
+        password.setVisibility(View.VISIBLE);
+        login.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLogin() {
+        View navigationDrawerItems = findViewById(R.id.drawer_fragment);
+        navigationDrawerItems.setVisibility(View.VISIBLE);
+
+        View not_logged_in = findViewById(R.id.not_logged_in);
+        not_logged_in.setVisibility(View.GONE);
+
+        View login_text = findViewById(R.id.login_text);
+        login_text.setVisibility(View.GONE);
+
+        email.setVisibility(View.GONE);
+        password.setVisibility(View.GONE);
+        login.setVisibility(View.GONE);
+    }
+
+    private void login(String response, String givenEmail, String givenPassword) {
         if (response == null) {
             AttendanceToast.show(getApplicationContext(), "Could not contact server");
-        } else if (response.contains("SUCCESS")) {
-            AttendanceToast.show(getApplicationContext(), "Success!");
-            getId.getText().clear();
+        }
+        if (response.contains("SUCCESS")) {
+            hideLogin();
+            AttendanceToast.show(getApplicationContext(), "Validation successful");
+            Configuration.getInstance().setAdminEmail(givenEmail);
+            Configuration.getInstance().setAdminPassword(givenPassword);
         } else {
             AttendanceToast.show(getApplicationContext(), response);
         }
     }
 
-    private boolean isValid(String id) {
-        return id.length() == Configuration.ID_LENGTH;
-    }
-
-    private void send(final String id) {
+    private void sendPostData(final String givenEmail, final String givenPassword) {
 
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -108,17 +151,15 @@ public class TakeAttendanceActivity extends ActionBarActivity {
                 HttpPost httpPost = new HttpPost(Configuration.url);
 
                 // Use this to set data
-                BasicNameValuePair idBasicNameValuePair = new BasicNameValuePair("id", id);
-                BasicNameValuePair emailBasicNameValuePair = new BasicNameValuePair("email", Configuration.getInstance().getAdminEmail());
-                BasicNameValuePair passwordBasicNameValuePair = new BasicNameValuePair("pass", Configuration.getInstance().getAdminPassword());
+                BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("email", email.getText().toString());
+                BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("pass", password.getText().toString());
                 BasicNameValuePair dayBasicNameValuePair = new BasicNameValuePair("day", Configuration.getInstance().getDay() + "");
                 BasicNameValuePair monthBasicNameValuePair = new BasicNameValuePair("month", Configuration.getInstance().getMonth() + "");
                 BasicNameValuePair yearBasicNameValuePair = new BasicNameValuePair("year", Configuration.getInstance().getYear() + "");
 
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
-                nameValuePairList.add(idBasicNameValuePair);
-                nameValuePairList.add(emailBasicNameValuePair);
-                nameValuePairList.add(passwordBasicNameValuePair);
+                nameValuePairList.add(usernameBasicNameValuePair);
+                nameValuePairList.add(passwordBasicNameValuePAir);
                 nameValuePairList.add(dayBasicNameValuePair);
                 nameValuePairList.add(monthBasicNameValuePair);
                 nameValuePairList.add(yearBasicNameValuePair);
@@ -170,13 +211,12 @@ public class TakeAttendanceActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                showResponse(result);
+                login(result, givenEmail, givenPassword);
             }
         }
 
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
-        sendPostReqAsyncTask.execute(id);
+        sendPostReqAsyncTask.execute(givenEmail, givenPassword);
 
     }
-
 }

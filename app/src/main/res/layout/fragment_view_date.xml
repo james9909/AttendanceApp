@@ -3,7 +3,7 @@
     android:id="@+id/view_date_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="wang.james.attendance.ViewDateFragment">
+    tools:context="wang.james.attendance.Fragment.ViewDateFragment">
 
     <Button
         android:id="@+id/change_date"

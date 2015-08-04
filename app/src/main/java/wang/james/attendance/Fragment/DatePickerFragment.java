@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;

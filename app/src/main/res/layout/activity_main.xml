@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/drawer"
-        android:name="wang.james.attendance.NavigationDrawerFragment"
+        android:name="wang.james.attendance.Fragment.NavigationDrawerFragment"
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="left"

@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.Fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
+import wang.james.attendance.Utils.Configuration;
+import wang.james.attendance.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="wang.james.attendance.ViewAttendanceActivity">
+    tools:context="wang.james.attendance.Activity.ViewAttendanceActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <wang.james.attendance.SlidingTabLayout
+    <wang.james.attendance.View.SlidingTabLayout
         android:id="@+id/view_attendance_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package wang.james.attendance.Activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import wang.james.attendance.R;
+import wang.james.attendance.View.SlidingTabLayout;
+import wang.james.attendance.Fragment.ViewDateFragment;
+import wang.james.attendance.Fragment.ViewStudentFragment;
+import wang.james.attendance.Fragment.ViewTodayFragment;
 
 public class ViewAttendanceActivity extends ActionBarActivity {
 
