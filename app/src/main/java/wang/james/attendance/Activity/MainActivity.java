@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,6 +42,9 @@ import wang.james.attendance.View.AttendanceToast;
 import wang.james.attendance.Utils.Configuration;
 import wang.james.attendance.Fragment.NavigationDrawerFragment;
 import wang.james.attendance.R;
+import wang.james.attendance.View.DividerItemDecoration;
+import wang.james.attendance.View.SendHistoryAdapter;
+import wang.james.attendance.View.SendHistoryItem;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -230,14 +238,36 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public static class TakeAttendanceFragment extends Fragment {
+
         private EditText getId;
-        private Button send;
+        private ImageView send;
+        private LinearLayoutManager layoutManager;
+
+        private RecyclerView sendHistory;
+        private SendHistoryItem mHistoryItem;
+        private SendHistoryAdapter adapter;
+        private ArrayList<SendHistoryItem> mHistory;
+
+        private boolean valid;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_take_attendance, container, false);
+            sendHistory = (RecyclerView) view.findViewById(R.id.send_history);
+            mHistory = new ArrayList<>();
+            adapter = new SendHistoryAdapter(mHistory);
+
+            layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+            sendHistory.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+            sendHistory.setLayoutManager(layoutManager);
+            sendHistory.setAdapter(adapter);
+            sendHistory.setItemAnimator(new DefaultItemAnimator());
+
             getId = (EditText) view.findViewById(R.id.get_id);
-            send = (Button) view.findViewById(R.id.send_attendance);
+            send = (ImageView) view.findViewById(R.id.send_attendance);
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -245,8 +275,10 @@ public class MainActivity extends ActionBarActivity {
                     if (Utils.isValidId(id)) {
                         sendId(id);
                     } else {
-                        AttendanceToast.show(getActivity(), "Invalid barcode");
+                        valid = false;
                     }
+                    mHistoryItem = new SendHistoryItem(id, valid);
+                    adapter.add(mHistoryItem);
                 }
             });
             return view;
@@ -256,11 +288,14 @@ public class MainActivity extends ActionBarActivity {
         private void showServerResponse(String response) {
             if (response == null) {
                 AttendanceToast.show(getActivity(), "Could not contact server");
+                valid = false;
             } else if (response.contains("SUCCESS")) {
                 AttendanceToast.show(getActivity(), "Success!");
                 getId.getText().clear();
+                valid = true;
             } else {
                 AttendanceToast.show(getActivity(), response);
+                valid = false;
             }
         }
 
