@@ -1,15 +1,17 @@
 package wang.james.attendance.Activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import org.apache.http.HttpResponse;
@@ -139,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
         login.setVisibility(View.GONE);
 
         Fragment takeAttendanceFragment = new TakeAttendanceFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.activity_main_content, takeAttendanceFragment).commit();
     }
 
@@ -255,7 +256,13 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_take_attendance, container, false);
             sendHistory = (RecyclerView) view.findViewById(R.id.send_history);
-            mHistory = new ArrayList<>();
+            if (savedInstanceState != null) {
+                Log.d("savedInstanceState", "not null");
+                mHistory = savedInstanceState.getParcelableArrayList("mHistory");
+            } else {
+                Log.d("savedInstanceState", "null");
+                mHistory = new ArrayList<>();
+            }
             adapter = new SendHistoryAdapter(mHistory);
 
             layoutManager = new LinearLayoutManager(getActivity());
@@ -284,6 +291,12 @@ public class MainActivity extends ActionBarActivity {
             return view;
         }
 
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            outState.putParcelableArrayList("mHistory", mHistory);
+            Log.d("onSaveInstanceState", "saving mHistory");
+        }
 
         private void showServerResponse(String response) {
             if (response == null) {
