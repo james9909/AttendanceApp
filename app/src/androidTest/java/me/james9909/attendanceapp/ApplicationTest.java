@@ -1,4 +1,4 @@
-package wang.james.attendance;
+package me.james9909.attendanceapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

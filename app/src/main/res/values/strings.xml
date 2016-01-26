@@ -1,17 +1,4 @@
 <resources>
     <string name="app_name">AttendanceApp</string>
-
-    <string name="welcome">Welcome to the StuyPulse attendance app</string>
     <string name="action_settings">Settings</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="not_logged_in_message">Log in to view actions</string>
-    <string name="title_activity_take_attendance">TakeAttendance</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_view_attendance">ViewAttendanceActivity</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
