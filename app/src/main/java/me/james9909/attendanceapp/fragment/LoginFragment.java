@@ -2,7 +2,9 @@ package me.james9909.attendanceapp.fragment;
 
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.james9909.attendanceapp.R;
+import me.james9909.attendanceapp.activity.MainActivity;
 import me.james9909.attendanceapp.utils.Config;
 import me.james9909.attendanceapp.utils.Utils;
 
@@ -71,9 +74,25 @@ public class LoginFragment extends Fragment {
 
                 if (serverResponse.contains("SUCCESS")) {
                     Toast.makeText(getContext(), "Validation successful", Toast.LENGTH_SHORT).show();
+
+                    // Change fragment to take attendance
+                    Fragment fragment;
+                    try {
+                        fragment = (Fragment) TakeAttendanceFragment.class.newInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return;
+                    }
+
+                    // Insert the fragment by replacing any existing fragment
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.fragments, fragment).commit();
                 } else {
                     Toast.makeText(getContext(), serverResponse, Toast.LENGTH_SHORT).show();
                 }
+
+                Config.getInstance().setAdminEmail(email);
+                Config.getInstance().setAdminPassword(password);
             }
         });
 

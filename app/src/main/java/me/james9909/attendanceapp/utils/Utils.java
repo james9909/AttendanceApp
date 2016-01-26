@@ -1,5 +1,7 @@
 package me.james9909.attendanceapp.utils;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +23,8 @@ public class Utils {
     }
 
     public static String getMonth() {
-        return calendar.get(Calendar.MONTH) + "";
+        // Correct month offset where January = 0
+        return calendar.get(Calendar.MONTH) + 1 + "";
     }
 
     public static String getYear() {
