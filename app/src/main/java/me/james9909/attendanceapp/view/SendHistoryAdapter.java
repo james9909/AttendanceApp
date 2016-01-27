@@ -39,14 +39,16 @@ public class SendHistoryAdapter extends RecyclerView.Adapter<SendHistoryAdapter.
         TextView studentId = holder.studentId;
         TextView statusMessage = holder.statusMessage;
 
-        studentId.setText(mHistory.get(position).getId());
-        if (mHistory.get(position).isSent() && mHistory.get(position).isValid()) {
-            statusMessage.setText("Sent");
-            statusMessage.setTextColor(Color.GREEN);
-        } else if (!mHistory.get(position).isSent()) {
+        History history = mHistory.get(position);
+        studentId.setText(history.getId());
+        if (!history.isSent()) {
             statusMessage.setText("Failed to send to server");
             statusMessage.setTextColor(Color.RED);
         } else {
+            statusMessage.setText("Success");
+            statusMessage.setTextColor(Color.GREEN);
+        }
+        if (!history.isValid()) {
             statusMessage.setText("Invalid barcode");
             statusMessage.setTextColor(Color.RED);
         }
