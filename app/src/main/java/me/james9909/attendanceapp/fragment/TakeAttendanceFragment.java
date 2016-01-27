@@ -118,6 +118,11 @@ public class TakeAttendanceFragment extends Fragment {
 
     public void sendId() {
         String studentId = id.getText().toString();
+        if (studentId.equals("")) {
+            Toast.makeText(getActivity(), "Please input something", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         History historyItem;
         if (studentId.matches("[0-9]{9}")) {
             historyItem = new History(studentId, true);
