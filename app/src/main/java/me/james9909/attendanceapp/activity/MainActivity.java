@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -116,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragments, fragment).commit();
+
+        fragment.setArguments(getCurrentFragmentArguments());
+        fragmentManager.beginTransaction().replace(R.id.fragments, fragment, "FRAGMENT").commit();
     }
 
     public void selectDrawerItem(MenuItem item) {
@@ -132,4 +135,16 @@ public class MainActivity extends AppCompatActivity {
         setTitle(item.getTitle());
         drawerLayout.closeDrawers();
     }
+
+    private Bundle getCurrentFragmentArguments(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        try {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentByTag("FRAGMENT");
+            return currentFragment.getArguments();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Bundle();
+        }
+    }
+
 }

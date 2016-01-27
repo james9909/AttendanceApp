@@ -22,7 +22,6 @@ public class SendHistoryAdapter extends RecyclerView.Adapter<SendHistoryAdapter.
 
     public void add(History historyItem) {
         mHistory.add(historyItem);
-        notifyItemInserted(mHistory.size() - 1);
         notifyDataSetChanged();
     }
 

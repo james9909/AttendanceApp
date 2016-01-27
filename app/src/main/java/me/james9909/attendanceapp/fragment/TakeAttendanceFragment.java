@@ -33,6 +33,8 @@ public class TakeAttendanceFragment extends Fragment {
     private Button submit;
     private EditText id;
 
+    private Bundle saveState;
+
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -88,6 +90,40 @@ public class TakeAttendanceFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        saveStateToArguments();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        restoreStateFromArguments();
+    }
+
+    private void saveStateToArguments() {
+        saveState = new Bundle();
+        if (saveState != null) {
+            saveState.putSerializable("history", history);
+            Bundle bundle = getArguments();
+            bundle.putBundle("bundle", saveState);
+        }
+    }
+
+    private boolean restoreStateFromArguments() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            saveState = bundle.getBundle("bundle");
+            if (saveState != null) {
+                for (History item : (ArrayList<History>) saveState.getSerializable("history")) {
+                    history.add(item);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;

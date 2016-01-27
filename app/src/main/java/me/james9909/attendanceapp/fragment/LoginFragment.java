@@ -75,6 +75,8 @@ public class LoginFragment extends Fragment {
                 if (serverResponse.contains("SUCCESS")) {
                     Toast.makeText(getContext(), "Validation successful", Toast.LENGTH_SHORT).show();
 
+                    Bundle arguments = new Bundle();
+
                     // Change fragment to take attendance
                     Fragment fragment;
                     try {
@@ -84,9 +86,11 @@ public class LoginFragment extends Fragment {
                         return;
                     }
 
+                    fragment.setArguments(arguments);
+
                     // Insert the fragment by replacing any existing fragment
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragments, fragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.fragments, fragment, "FRAGMENT").commit();
                 } else {
                     Toast.makeText(getContext(), serverResponse, Toast.LENGTH_SHORT).show();
                 }
