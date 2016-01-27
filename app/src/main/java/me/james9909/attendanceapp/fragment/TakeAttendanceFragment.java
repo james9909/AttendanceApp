@@ -187,5 +187,6 @@ public class TakeAttendanceFragment extends Fragment {
         }
         adapter.add(historyItem);
         recyclerView.smoothScrollToPosition(history.size() - 1);
+        id.setText("");
     }
 }

@@ -1,5 +1,6 @@
 package me.james9909.attendanceapp.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -91,6 +93,8 @@ public class LoginFragment extends Fragment {
                     // Insert the fragment by replacing any existing fragment
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.fragments, fragment, "FRAGMENT").commit();
+                    InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                 } else {
                     Toast.makeText(getContext(), serverResponse, Toast.LENGTH_SHORT).show();
                 }
